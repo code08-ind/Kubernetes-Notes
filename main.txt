@@ -1,0 +1,182 @@
+Kubernetes:
+
+1. Nowadays we have the Kubernetes as the tool that will be used to deal with the microservices inside the project.
+2. Kubernetes helps to scale or control the Docker Containers.
+3. We have Nodes that define the Servers. We have multi-nodes that are called as clusters.
+4. We have a master node that takes out the work from the worker nodes. Containers work on the worker nodes.
+5. API Server takes care of everything of the nodes which are worker or master nodes.
+6. Scheduler schedules the containers inside the worker nodes. Schedulers are responsible for running the pods.
+7. Then we have a Database to store tha values, we call it etcd.
+8. Then we have a controller manager all over the system. We can access the pods from outside by using the proxy service.
+9. Different nodes work and communicate under a network using the CNI Network.
+10. Kubelet acts as a Manager to the nodes.
+11. Kubectl helps to manage and give orders to our cluster to work under a particular way.
+12. Kubelet sees  if the pods are running properly or not.
+13. We can create the Kubernetes cluster by using various of the methods: kubeadm (We form the kubernetes cluster with nodes and 
+connect them together), Minikube (using local/ec2), Kind Cluster(Kubernetes in Docker), EKS/AKS (Elastic Kubernetes Service or other cloud service)
+14. We can refer kubestarter GitHub repository. We have following different modes here.
+15. For running kind cluster, we need the Docker as well. We will update the Linux system and then we will install the Docker.
+16. After installing the Docker, we will run the docker ps and we will get the error. We will need to add the user to the Docker group and update
+the group: sudo usermod -aG docker $USER && newgrp docker.
+17. We can now run the kubectl now and check the version using the command: kubectl version.
+18. Also check the docker version using the command: docker --version and kind version: kind --version
+19. We can also install kind, docker, kubectl in the local in macbook.
+20. Now we have to build the cluster's configuration with the name config.yml. Inside it we will define how many nodes we want inside the cluster.
+21. Inside it, we have to give the role of the node and image.
+22. We need to add extraPortMappings where we will define the container port, host port and protocol. We will be giving the protocols such as
+HTTPS, TCP etc.
+23. kind create cluster --name=<cluster-name> --config=<config file name>: It will create the cluster. It will install all the nodes, setup
+the storage classes, setup the network etc.
+24. kubectl cluster-info --context <context-name>: This will show the information regarding the cluster.
+25. kubectl get nodes: This will show all the nodes created.
+26. We can also do the same by using the minikube installation process by using the kube-starter github repository.
+27. Minikube also uses the Docker at the background to form the cluster.
+28. We can also use the kubeadm for this, and we can initialize it here where we will get to see the kubeadm as the master node and we can also
+setup the worker nodes.
+29. There is a setup for kubeadm as well. Kubeadm uses the containerd in the background process. The process needs to be repeated up i
+30. watch kubectl get nodes: It will show the status of the nodes in some interval of time.
+31. Inside every pod we can have multiple containers running inside it.
+32. For auto-scaling, auto-recovery, we would need a deployment to run it. To manage the deployment, we would need the service. Then we will 
+have the service to be used by the user.
+33. In Kubernetes, we have groups. Group is called as namespace in kubernetes. Namespaces are isolated.
+34. kubectl get namespace or kubectl get ns: It will give all the namespaces present with us. We will have default namespace here.
+35. We will get pods using: kubectl get pods
+36. kubectl get pods -n <namespace-name>: We can run various applications over the different namespaces. We will be able to see the pods
+inside that namespace mentioned.
+37. kubectl create ns <namespace-name>: To create the namespace with the name mentioned
+38. kubectl run <pod-name> --image=<image-name>: To create the pod and it will pull the image from the Dockerhub. It will run in the 
+default namespace.
+39. kubectl run <pod-name> --image -n <namespace>: To run the pod inside that namespace.
+40. Going ahead we will make everything using the .yml file.
+41. kubectl delete pod <podname> -n <namespace>: It is used to delete the pod from namespace
+42. We can automate the namespace creation using the .yml file. It has certain fields such as kind, apiVersion, metadata (name).
+43. kubectl apply -f <namespace-app-name>.yml: This will create the namespace here.
+44. These .yml files are the manifest files.
+45. Similarly pod can be created by using the .yml file. We have certain properties inside it: kind, apiVersion, metadata (name, namespace), spec 
+(containers (name, image, ports (containerPort)))
+46. Same for the pods, we need to apply that file.
+47. kubectl exec -it pod/<pod-name> -n <namespace-name> -- <shell-name>: This will exec the pod where it will open the particular shell.
+48. kubectl describe pod/<pod-name> -n <namespace-name>: It will describe the pod. It will have the different details inside the pods.
+49. To make the pod scalable, we will need deployment. we will be creating deployment.yml file. It will have certain fields such as: kind, apiVersion,
+metadata(name, namespace), spec(replicas, selector (matchLabels (app)), template (metadata(labels(app)))) etc. This template will also contain the 
+specs and the name of containers and other details for the container.
+50. We have a replication controller that controls the replicas. For replica-set, we have a template that will form the replicas inside it. For
+Stateful-set, we have the state of the pod maintained. Deployment gives us the rolling updates. If a pod undergoes update, 
+it will work on the other pod.
+51. We will have labels and selectors given to a pod. If the app name matches with the label and selector, we will replicate the same.
+52. We can delete the pod.yml file by using: kubectl delete -f pod.yml.
+53. kubectl get deployment -n <namespace-name>: It will check the pods created inside the deployment.
+54. kubectl scale deployment/<deployment-name> -n <namespace-name> --replicas=5 : To scale the deployments or pods.
+55. kubectl get pods -n <namespace-name> -o wide: It will show more details regarding the pods
+56. We can set different image version and also we can use the rollout command of kubectl.
+57. deployment.yml file be exactly same as replicaset.yml, just kind needs to be changed to ReplicaSet.
+58. kubectl get replicasets -n <namespace-name>: It will show the list of all the replicasets.
+59. Daemonsets make sure that in the nodes, atleast one pod keeps working on. The confirguration file remains same in the format and update the
+kind to DaemonSets and then we can apply the file for daemonsets.
+60. In container we have Task and for that Task, we have a Job for it and that Job can be done and completed on our end.
+61. Job can be created using Job.yml. That task can be divided into multiple tasks that run parallely or it can run independently on it. We have 
+a format for it as well which has completions, parallelism inside the spec.
+62. kubectl get job -n <namespace-name>: It will get all the jobs for us. Moreover we can get the pods inside the jobs.
+63. We have various life cycle levels for pods.
+64. We can get the logs for the pod by using the command: kubectl logs pod/<pod-name> -n <namespace-name>
+65. If we want the job to run following the particular schedule so we call it the cron-job.
+66. For Cron Job, kind will be CronJob, for spec we have a schedule under it and we have to give the jobTemplate in it. We can add volumeMounts inside 
+it and we will get the updates here so that we can keep our data saved in the folder, we can also add our restart our system if it fails based on
+restartPolicy.
+67. We can get the cronjob using the command: kubectl get cronjob - <namespace-name>
+68. In interviews it is only asked about the definition. 
+69. A pod runs inside the node and that pod can be deleted or destroyed anytime. 
+70. In order to prevent the data loss, we need a volume to bind the data between the host and pod. For making pesistent storage, we will need a 
+Persistent Volume and Persistent Volume Claim.
+71. We can create PersistentVolume.yml with kind PersistentVolume: Form a persistence volume yml file with comments in it.
+72. We don't need to provide the namespace to it and we can get all the persistent volumes: kubectl get pv
+73. Now the host needs to claim the persistent volume. Now we need a .yml file for this of kind PersistentVolumeClaim and form a .yml file for this.
+74. We can get all the persistent volume claims using the command: kubectl get pvc
+75. For persistent volume and persistent volume claim, we will need to provide the namespace.
+76. If a pod has an issue, we can check with the describe command to check the pod.
+77. If we want to make that the user can interact with the deployment from outside, we need to make service over the deployment. We need to provide
+service.yml file that will let the service to be exposed to a port so that the end user can interact from the outer world to the deployment.
+78. kubectl get all -n <namespace-name>: To get all the resources on our system.
+79. To make our service run from outside, we will need a command: kubectl port-forward service/<service-name> -n <namespace-name> port:target-port
+--address=0.0.0.0
+80. kubernetes will pull the image when it will be publically available.
+81. For an image, we construct Deployment, Namespace, Service etc and apply these all files.
+82. We will have all of these deployment, service, pods created inside the Namespace.
+83. Ingress: It is a kubernetes tool that re-routes the traffic on the cluster when we hit on different routes for the services.
+84. We have to run everything on the same namespace.
+85. We can delete pods, deployment, service etc using command: Write command please
+86. For ingress, we will be using the ingress-controller and this needs to be made on the kind.
+87. For different ports, we will be having the different services running on them.
+88. We can get the ingress in our system using the command: kubectl get ing -n <namespace-name>
+89. We can forward the port on the ingress controller.
+90. For the ingress, we can write the annotation and re-write it for the port mappings and routes.
+91. By deleting the namespace, will delete all the resources in the namespace.
+92. Databases are stateful.
+93. For just deploying the code on the applications which are made from django etc, these are stateless. For stateless, we will be using the 
+Replicasets, deployment, daemonsets etc.
+94. For maintainable states, we will be using stateful sets. In stateful sets, pods also carry the state with them.
+95. If a pod goes off, data will be moved to the next pod.
+96. For each stateful set pod, it will be having a volume with itself. We need to also give the volume claims here.
+97. We have a service that is joined to the pod inside the stateful set.
+98. For the stateful set, we formed a headless service for the db where the cluster IP is null.
+99. We can also make the thing that we can make a command to be watched automatically and run the command in watch mode.
+100. The benefit of the stateful sets is that it does not have a cluster IP, external IP address. We can go inside the pod as well using the exec
+command.
+101. In stateful sets, we have a pod with some name. If we delete that same pod with that name, it will again create the same name pod again.
+102. We can have configMap.yml where we can have the details of the variables we are using here. It's kind is ConfigMap and we can add the details
+of the data inside this.
+103. We can give the keys in the configmap by using the reference in the stateful set.
+104. We can use secrets as well, but our details are base64 encoded. It also uses the ref to take the value in the .yml file.
+105. We can change the volume claims as well as the volumes in the stateful sets.
+106. In the deployments, we have spec which is having the containers which will have resources and under it, we have request. Under which we have
+the cpu's etc. We don't want the pod to consume more resources than the limits defined under the deployment.yml file.
+107. Also we have certain types of probes as well such as: Liveness probe, Readiness probe, startup probe.
+108. Liveness probe is used to make sure that our probe is working find at that port. If our pod is getting ready to be published or to be used, 
+Readiness probe is used.
+109. Startup probe is used to check if our probe started successfully or not.
+110. Tainted Node is the node that we don't want the scheduler to schedule the pod on. Tolerance is the process to make the pod work on the
+tainted node. It can be done using: kubectl taint node <node-name> prod=true:NoSchedule
+111. The control plane Node is always tainted.
+112. kubectl taint node <node-name> prod=true:NoSchedule- : This way we will untaint the node that is there.
+113. In the pod.yml, we will add the scenario of the field under the containers section to add the tolerations.
+114. There are 3 types of auto-scaling in Kubernetes that is present here with us. They are Horizontal Pod Auto Scaling, Vertical Pod Auto Scaling
+and Kubernetes Event Driven Autoscaling (KEDA).
+115. Horizontal scaling allows to have multiple replicas. Vertical Pod auto-scaling allows to scale up the resources used by pod. Generally it used
+for stateful pods. 
+116. KEDA basically allows to see which one of the HPA, VPA will be used based on the need.
+117. kubectl top node, kubectl top pod: To see the metrics here for the node or the pod. We will be using the metrics server for the same. Sometimes
+we may have to bypass the security issues here so we need to edit the deployment created here.
+118. Now for making use of HPA, we will be using apache server. We will be creating deployment for it and before it, we will be creating a namespace
+as well.
+119. Now we have to make it publically accessible here, we will be creating a service. We in generally have two kind of ports: port that is the
+exposed port from the cluster and target port is the port of the container.
+120. We also get the dns for the service here and can access using that. Also For building the HPA, we make use of HorizontalPodAutoscaler 
+as the kind. We have the scaleTargetRef for the resource. We have the minReplicas as well as maxReplicas.
+121. We can by custom also add the load over our website by using some websites.
+122. kubectl run -it <pod-name> --image=<image-name> -n <namespace-name> -- bash: To run the pod.
+123. kubectl get hpa -n <namespace-name>:  Get all the hpa in the namespace along with the CPU utilization etc.
+124. If the load or utilization is less, our hpa will keep less number of pods.
+125. For VPA, we need the files from the GitHub of the kubernetes autoscaler repository. There is .sh file in the hack folder which the vpa-up.sh
+file is present to make the VPA up.
+126. Now for VPA, we will make the vpa.yml file.
+127. For updating the autoscaling capabilities, we need to give the updatePolicy where we can keep it as initial, auto or keep updated mode as off.
+128. kubectl top pod -n <namespace-name>: It gets the details of the memory used.
+129. To get the vpa, we can use the command: kubectl get vpa -n <namespace-name>
+130. If we have to schedule a pod over a specific node, we can describe the details of that node and it will provide with the Node Affinity to the pod.
+131. RBAC: Role and the User talks to each other using the Role Binding. For role based access controls, we need to know about service accounts
+and users. Roles have the namespace with them. At cluster level, we have the cluster level roles. At the cluster level, we have the cluster level
+binding.
+132. kubectl auth whoami: It will show us the user authenticated.
+133. kubectl auth can-i get pods: It will be used to see if we can get the pods or not. Same we can get the deployments etc. 
+134. For Providing security, we would need the role.yml etc and then we will apply the role that we have assigned to role that we created.
+135. We need to also create a service account here. We will then create a RoleBinding.yml where we need to bind the roles here. While getting the pods
+we need to also give the namespace at the end. Whenever we make changes to the role.yml, service-account.yml or RoleBinding.yml, always do apply
+at the end of making updates inside it.
+136. We can setup kubernetes dashboard manifest file. To make work our dashboard over the internet, we need to expose the proxy for it. By changing
+the namespace, we can open all of the resources running inside this.
+137. Custom Resource Definition: To create resources that are not present already in the kubernetes system and we need to give the custom resource
+definition for the same. Its kind will be CustomResourceDefinition. We can define the shortnames, and other group, scope, versions etc.
+138. 
+
+
+Start From 07:27:51 Mins.
