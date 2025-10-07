@@ -176,7 +176,11 @@ at the end of making updates inside it.
 the namespace, we can open all of the resources running inside this.
 137. Custom Resource Definition: To create resources that are not present already in the kubernetes system and we need to give the custom resource
 definition for the same. Its kind will be CustomResourceDefinition. We can define the shortnames, and other group, scope, versions etc.
-138. 
+138. We can get crd (custom resource definitions): kubectl get crd
+139. In order to implement and make our crd work, we will require Operators. 
+140. kubectl top node or kubectl top pod: It will help us to know which node or pod is taking most of the memory and CPU resources.
+141. Helm is a package manager in kubernetes to manage and write back the manifest files. This will help us to manage, upgrade and package the things out so that
+we don't have to work again and again for the different files components out here such as nginx, mysql etc.
+142. We need to install helm to make the package manager work. For working with helm, we will require helm charts etc. 
 
-
-Start From 07:27:51 Mins.
+Start From 07:42:51 Mins.
