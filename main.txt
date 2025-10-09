@@ -182,5 +182,16 @@ definition for the same. Its kind will be CustomResourceDefinition. We can defin
 141. Helm is a package manager in kubernetes to manage and write back the manifest files. This will help us to manage, upgrade and package the things out so that
 we don't have to work again and again for the different files components out here such as nginx, mysql etc.
 142. We need to install helm to make the package manager work. For working with helm, we will require helm charts etc. 
+143. We can create the chart in helm using: helm create <chart-name>.
+144. We have the values stored inside the values.yaml file and we can get the values can be obtained from this file.
+145. chart.yaml has the details for the chart we have created here.
+146. helm package <helm-chart-name>: Now we can easily import or export this package out there. We can create helm for different environments here.  
+147. Everything is created inside the default namespace. We can uninstall everything using helm uninstall <helm-environment> <helm-chart-name>. 
+148. helm install <helm-env> <helm-chart-name> -n <helm-env> --create-namespace
+149. helm rollback <env-helm-chart-name> <revision-number> -n <namespace>: We can rollback to the revision of the helm we want to. 
+150. By using helm, we can install any tool and work with it.
+151. To uninstall the helm chart of a technology, we just need to use: helm uninstall <helm-chart-name>
+152. Helm itself has a lifecyle: Craetion -> Installation -> Upgrade -> Rollback -> Delete
 
-Start From 07:42:51 Mins.
+Start From 08:12:51 Mins.
+
