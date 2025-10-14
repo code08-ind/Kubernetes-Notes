@@ -192,6 +192,11 @@ we don't have to work again and again for the different files components out her
 150. By using helm, we can install any tool and work with it.
 151. To uninstall the helm chart of a technology, we just need to use: helm uninstall <helm-chart-name>
 152. Helm itself has a lifecyle: Craetion -> Installation -> Upgrade -> Rollback -> Delete
+153. Init Container vs Sidecar Container: For both of them Kind is Pod but spec differes for both of them. These are there to help out our main
+container. We can make our Init Container run first and then our main container will run. Sidecar container is there to support the main container
+and will act as a helper container.
+154. We can also check logs for it as well. Everytime in Init Containers and Side Car Containers, Only 2 Containers are always running.
+155. In Side car container, both the containers will run in parallel to each other and will be inside the containers spec. 
+156. Side car Container will be used here to collect the logs and metrics about the main containers. 
 
-Start From 08:12:51 Mins.
-
+Start From 08:27:51 Mins.
