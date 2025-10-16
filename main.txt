@@ -198,5 +198,12 @@ and will act as a helper container.
 154. We can also check logs for it as well. Everytime in Init Containers and Side Car Containers, Only 2 Containers are always running.
 155. In Side car container, both the containers will run in parallel to each other and will be inside the containers spec. 
 156. Side car Container will be used here to collect the logs and metrics about the main containers. 
+157. We can perform some init commands and init things inside the init containers.
+158. Service Mesh: There are various different services running together which creates a Mesh Structure. It takes use of the Gateway to pass the services and then have a look into them. Popular service mesh tool is istio.
+159. Istio helps in distribution of services based on layers. We will make a cluster for it: kind create cluster --name <istio-cluster-name>. This will be used for
+istio testing. 
+160. Istio uses sidecar proxy to handle mincroservices and it also provides us the service discovery along with Operator which provides user friendly options 
+to operate the istio service mesh.
+161.
 
-Start From 08:27:51 Mins.
+Start From 08:57:51 Mins.
